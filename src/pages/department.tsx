@@ -16,47 +16,58 @@ import IconPhone from '@/assets/img/departmentIconPhone.png'
 import IconEarth from '@/assets/img/departmentIconEarth.png'
 import IconSre from '@/assets/img/departmentIconSre.png'
 import DepartmentSlider from '@/components/departmentSlider'
-import { Link } from 'react-router-dom'
 import useRouter from '@/utilites/useRouter'
+import { router } from 'umi'
+import TapMp3 from '@/assets/mp3/tap.mp3'
 
 const SelectionControl: React.FC = () => {
-  const router = useRouter<{ index: string }>()
-  const index = parseInt(router.param.index)
+  const Urouter = useRouter<{ index: string }>()
+  const index = parseInt(Urouter.param.index)
+  const handelDepartmentButtonClick = (index: number) => {
+    router.replace({
+      pathname: '/department',
+      query: {
+        index
+      }
+    })
+    // @ts-ignore
+    document.getElementById('mp1').innerHTML=`<audio src=${TapMp3} autoplay/>`
+  }
   return (
     <div className={styles.selectionControl}>
       <div className={styles.iconBrain}>
         <DepartmentButton>
-          <Link to='/department?index=0'>
+          <div onClick={()=>handelDepartmentButtonClick(0)}>
             <img src={IconBrain} alt='IconBrain' style={index===0? { opacity: 1 } :{}}/>
-          </Link>
+          </div>
         </DepartmentButton>
       </div>
       <div className={styles.iconArt}>
         <DepartmentButton>
-          <Link to='/department?index=1'>
+          <div onClick={()=>handelDepartmentButtonClick(1)}>
             <img src={IconArt} alt='IconArt' style={index===1? { opacity: 1 } :{}}/>
-          </Link>
+          </div>
         </DepartmentButton>
       </div>
       <div className={styles.iconPhone}>
         <DepartmentButton>
-          <Link to='/department?index=2'>
+          <div onClick={()=>handelDepartmentButtonClick(2)}>
             <img src={IconPhone} alt='IconPhone' style={index===2? { opacity: 1 } :{}}/>
-          </Link>
+          </div>
         </DepartmentButton>
       </div>
       <div className={styles.iconEarth}>
         <DepartmentButton>
-          <Link to='/department?index=3'>
+          <div onClick={()=>handelDepartmentButtonClick(3)}>
             <img src={IconEarth} alt='IconEarth' style={index===3? { opacity: 1 } :{}}/>
-          </Link>
+          </div>
         </DepartmentButton>
       </div>
       <div className={styles.iconSre}>
         <DepartmentButton>
-          <Link to='/department?index=4'>
+          <div onClick={()=>handelDepartmentButtonClick(4)}>
             <img src={IconSre} alt='IconSre' style={index===4? { opacity: 1 } :{}}/>
-          </Link>
+          </div>
         </DepartmentButton>
       </div>
     </div>
@@ -77,6 +88,19 @@ const DetailBox: React.FC<IDetailBoxProps> = ({ name, detail, mark }) => {
   )
 }
 
+const EnterButton: React.FC = () => {
+  const handelEnterClick = () => {
+    router.replace({
+      pathname:'/joinin'
+    })
+  }
+  return (
+    <div className={styles.enterButton} onClick={handelEnterClick}>
+      报名
+    </div>
+  )
+}
+
 const DepartmentPage: React.FC<RCProps<IRouterQuery>> = ({ location }) => {
   const index = parseInt(location.query.index)
   return (
@@ -89,6 +113,7 @@ const DepartmentPage: React.FC<RCProps<IRouterQuery>> = ({ location }) => {
           detail={departments[index].detail}
           mark={departments[index].mark}
         />
+        <EnterButton />
       </DepartmentLayer>
     </Fragment>
   )

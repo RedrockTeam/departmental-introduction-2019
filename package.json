@@ -1,4 +1,5 @@
 {
+  "name": "departmental-introduction-2019",
   "private": true,
   "scripts": {
     "start": "umi dev",

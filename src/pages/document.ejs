@@ -2,9 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Your App</title>
-    <meta name="x5-orientation" content="portrait">
-    <meta name="screen-orientation" content="portrait">
+    <title>红岩网校部门介绍</title>
+    <meta name="screen-orientation" content="landscape">
+    <meta name="x5-orientation" content="landscape">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="browsermode" content="application">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
         #full {
             position: absolute;
@@ -18,8 +22,12 @@
             justify-content: center;
             align-items: center;
             z-index: 100;
+            font-size: 4vmin;
+            text-align: center;
+            line-height: 4vmin;
         }
         #re {
+            padding: 10vmin;
             position: absolute;
             left: 0;
             right: 0;
@@ -30,17 +38,36 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             z-index: 99;
+            font-size: 4vmin;
+            text-align: center;
+            line-height: 8vmin;
+        }
+
+        #re img {
+            height: 6vmin;
+            width: auto;
+            margin-bottom: 1vmin;
         }
     </style>
 </head>
 <body>
 <div id="full"><div>轻触即可全屏浏览</div></div>
-<div id="re"><div>请旋转屏幕以观看</div></div>
+<div id="re">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAiCAYAAAAKyxrjAAADpUlEQVRYhd3ZW4hVVRgH8N85jscpu0lFF4rqoZJOHkyLsumCFZHdg3rIoshAkkqpXnqoiMggCJsKpR6yiCjfggZSDHyILkZNeo7ndHtR6DIRkVJiOnaOPay1Z7ZzkcPsfWaY/rD5f2vzLdb333uf7/vWOoVqvQmz0Iv7cZTpjb14B49VysXBQrXeLGEbLogOf+NfzJiiACeKJkqYHccNLOjCakHcT1iKr0xfgTNxCd5DGasL1XrzT8zBEmyauvgmhkq5OOperdG6ARuxuyiIg+okxtVpJFrmpOUfPRWRdAhDiTIt8FDk5/A5zp7EgDqGrpQ9GPlBnI5F2JXDGrfhGlyIE/AzvkFf5E7g18RICyxEHhAE7s+4yBKhtp434v4C3IpnBZEr5fMgQa3RWown4nBf1xg+h0bwRPGSIG4nPkBdKMKnYqHQVNyCG3GzHDJ4rdG6CltStw6MJTAruoW3fyfm4/1x/J7Ea9FvIy7DlxnXfmPEeMboIpINtwuf27n4zvji4DfchXVxvEmG5qLWaM3F3Djswx4ck7fA53EKtuOsNuc8jH4hAT2TYe1zUva7QmdTzFNgj9AeEWrqdpzR5tzHI6/KsH4rcpI7ShxeB7Piushv4iPhjeww3MQfCZ8Iqf34DOu3UnZJFJqnwHmRX8dN+FEQubzN+Z/lGMsQ8hR4YuQzI8/DMqwZx79HqIEJ9uYYyxDyLBMDkbsjD+KtI/ivF+rkpbjHcKORK/J8gzsiX9+m/6ORlwr1q5JjLEPIU2DSidzbpv9mXBnt5UIL90uO8SBfgdvi1YVX2pzzKa5Njcf7vbaDMbXkXeiTt7cSK9qcswUPCA8ni8BCigeTcd4Cv8Uj0V6HV4VSMRZ68JSwc3lb+ESzYCBlF3CAfLNogrVCoV0jJJIVQm/Yj7+EFm4RLo/+B/FiDuvW8QdOEsrTTDQ7IRBexhd4AYtxR7xGYq3Q+WRGpVxs1hqtZfjQcCbfPZbAwgieKLYKO/mLcYVwBDJLeMrf42P8nnGNw1ApF/tqjdbdeAhXo5QWmDSpp0Xulg++jtekoFIubqg1Wn1CZzQ7nWRKkdcLG8+tkxVUB3ByYqQFJp/k08LueudkRpQziqMM7JuCQDqFfxKjKGztCcd6/xckfe2eQrXe7BV20ruExrdf2Dzm3QR0Gi3hZ7YQG4R621uo1pvdwvHC+dFxuv59lryU4+L4B8zvEo74LhIOae/DsVMSXn44KLR+qyrl4v7/AOZ3xAdlzvp+AAAAAElFTkSuQmCC"  alt="tips"/>
+    <div>请旋转屏幕以观看<br/>若没有作用请打开系统设置中的旋转屏幕<br/>如果在微信中使用请将微信通用设置中的开启横屏模式打开</div>
+</div>
 <div id="root"></div>
+<div id="mp3"></div>
+<div id="mp1"></div>
 <script>
   var fullElement = document.getElementById('full')
   var reElement = document.getElementById('re')
+  var isiOS = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+  if (isiOS) {
+    fullElement.style.cssText = 'display: none;'
+  }
   var event = new Event('orient');
   var Fullscreen = function() {
     function launchFullscreen(element) {
@@ -60,7 +87,26 @@
     Fullscreen()
     fullElement.style.cssText = 'display: none;'
     detectOrient();
+  })
+
+  setTimeout(()=>{
     window.onresize = detectOrient;
+  }, 0)
+
+  function exitFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+
+  window.addEventListener('exitFullscreen1', () => {
+    exitFullscreen()
   })
 
   var detectOrient = function() {

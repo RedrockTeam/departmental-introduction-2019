@@ -6,6 +6,7 @@ import pxToViewPort from 'postcss-px-to-viewport'
 
 // ref: https://umijs.org/config/
 const config: IConfig = {
+  base: './',
   treeShaking: true,
   publicPath: './',
   history: 'hash',
@@ -19,10 +20,11 @@ const config: IConfig = {
         dynamicImport: false,
         title: 'departmental-introduction-2019',
         dll: false,
-
+        pwa: true,
         routes: {
           exclude: [/components\//],
         },
+        fastClick: true,
       },
     ],
   ],

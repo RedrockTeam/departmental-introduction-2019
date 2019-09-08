@@ -1,0 +1,29 @@
+branches:
+  only:
+    - old
+sudo: true
+dist: trusty
+language: node_js
+node_js:
+  - "12"
+cache:
+  directories:
+    - $HOME/.upx.db
+env:
+  global:
+    - UPX_VERSION=0.2.3
+    - UPX_FILENAME=upx-linux-amd64-v${UPX_VERSION}
+    - UPX_URL=http://collection.b0.upaiyun.com/softwares/upx/${UPX_FILENAME}
+install:
+  - echo $PATH
+  - mkdir -p $HOME/bin; export PATH=$HOME/bin:$PATH
+  - wget -O /tmp/${UPX_FILENAME} ${UPX_URL}
+  - install /tmp/${UPX_FILENAME} $HOME/bin/upx
+  - npm i
+script:
+  - npm run build
+
+after_success:
+  - mkdir ./dist/$DIR_NAME
+  - mv ./dist/* ./dist/$DIR_NAME
+  - upx --auth $UPX_AUTH sync --delete --strong ./dist

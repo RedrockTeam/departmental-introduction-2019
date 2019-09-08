@@ -3,6 +3,7 @@ import styles from './index.less'
 import router from 'umi/router'
 import spaceshipPng from '@/assets/img/spaceship.png'
 import useWord from '@/utilites/useWord'
+import TapMp3 from '@/assets/mp3/tap.mp3'
 
 const Content: React.FC = () => {
   const words = ['欢迎来到红岩网校空间站', '我是Redrocker.AI', '1942年2月14日 世界上第一台电子计算机在美国宾夕法大学问世', '2019年9月 加入我们 探索信息时代的星辰大海']
@@ -10,10 +11,10 @@ const Content: React.FC = () => {
   const setTimeoutRef: any = React.useRef();
   useEffect(()=>{
     setTimeoutRef.current = setTimeout(()=>{
-      router.push({
+      router.replace({
         pathname: '/gate'
       })
-    }, 9000)
+    }, 7500)
     return () => {
       clearTimeout(setTimeoutRef.current)
     }
@@ -42,7 +43,7 @@ const IndexPage: React.FC = () => {
   window.addEventListener('orient', () => {
     setOk(true)
   })
-  return <div className={styles.background}>{isOk ? <Content /> : ''}</div>
+  return <div className={styles.background}>{isOk ? <Fragment><Content /><audio src={TapMp3} autoPlay loop /></Fragment> : ''}</div>
 }
 
 export default IndexPage
