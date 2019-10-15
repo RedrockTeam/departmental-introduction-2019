@@ -10,7 +10,7 @@ const VBack: React.FC = () => {
   }
 
   return (
-    <Fragment>
+    <>
       <div className={styles.content} onClick={handelBackClick}>
         <span>返回</span>
       </div>
@@ -20,7 +20,7 @@ const VBack: React.FC = () => {
       <div className={styles.divider}>
         <div/>
       </div>
-    </Fragment>
+    </>
   )
 }
 

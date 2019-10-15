@@ -4,7 +4,9 @@
   "scripts": {
     "start": "umi dev",
     "build": "umi build",
-    "test": "umi test"
+    "test": "umi test",
+    "deploy": "yarn build",
+    "postdeploy": "upx sync --delete --strong ./dist"
   },
   "dependencies": {
     "react": "^16.9.0",
